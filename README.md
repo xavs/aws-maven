@@ -3,8 +3,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 [![Dependency Status](https://www.versioneye.com/user/projects/5a830fc40fb24f26e080542f/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a830fc40fb24f26e080542f)
-[![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=6.0)](https://travis-ci.org/platform-team/aws-maven)
-[![Coverage Status](https://img.shields.io/coveralls/moleksyuk/psl-commons.svg)](https://coveralls.io/r/moleksyuk/psl-commons?branch=master)
+[![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=v6.0)](https://travis-ci.org/platform-team/aws-maven)
+[![Coverage Status](https://coveralls.io/repos/github/platform-team/aws-maven/badge.svg?branch=v6.0)](https://coveralls.io/github/platform-team/aws-maven?branch=v6.0)
 
 
 This project is a [Maven Wagon][wagon] for [Amazon S3][s3].  In order to to publish artifacts to an S3 bucket, the user (as identified by their access key) must be listed as an owner on the bucket.
