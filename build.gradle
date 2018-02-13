@@ -1,0 +1,167 @@
+/*
+ * Copyright 2018-Present Platform Team.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+ext {
+    projectName = 'aws-maven'
+    projectVersion = '6.0.0-SNAPSHOT'
+    projectGroup = 'com.github.platform-team'
+    projectUrl = 'https://github.com/platform-team/aws-maven'
+    projectDescription = ''
+    projectOwner = 'Platform Team'
+
+    artifactManifestVersion = '1.0'
+    artifactPomScmUrl = 'git@github.com:platform-team/aws-maven.git'
+    artifactPomScmConnection = 'scm:git:git@github.com:platform-team/aws-maven.git'
+    artifactPomScmDeveloperConnection = 'scm:git:git@github.com:platform-team/aws-maven.git'
+    artifactPomLicenseName = 'Apache License, Version 2.0'
+    artifactPomLicenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0'
+    artifactPomDistribution = 'repo'
+    artifactPomDeveloperId = 'moleksyuk'
+    artifactPomDeveloperName = 'Mykhailo Oleksiuk'
+    artifactPomDeveloperEmail = 'mykhailo.oleksiuk@gmail.com'
+}
+
+ext.sharedManifest = manifest {
+    attributes(
+            'Manifest-Version': artifactManifestVersion,
+            'Package': projectGroup,
+            'Implementation-Title': name,
+            'Implementation-Version': projectVersion,
+            'Implementation-Vendor': projectOwner,
+            'Built-By': projectOwner,
+            'Built-Date': new Date().toString(),
+            'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+            'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')'
+    )
+}
+
+version = projectVersion
+group = projectGroup
+description = projectDescription
+
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.2'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'ch.qos.logback:logback-classic:1.1.1'
+    compile 'com.amazonaws:aws-java-sdk:1.7.1'
+    compile 'org.apache.maven.wagon:wagon-provider-api:2.6'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.6'
+    compile 'org.slf4j:slf4j-api:1.7.6'
+
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+jar {
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    manifest = project.manifest { from sharedManifest }
+    from('.') { include 'LICENSE' into('META-INF') }
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+//signing {
+//    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+//    sign configurations.archives
+//}
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//
+//            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+//                authentication(userName: sonatypeUsername, password: sonatypePassword)
+//            }
+//
+//            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+//                authentication(userName: sonatypeUsername, password: sonatypePassword)
+//            }
+//
+//            pom.project {
+//                name projectName
+//                description projectDescription
+//                packaging 'jar'
+//                url projectUrl
+//
+//                scm {
+//                    url artifactPomScmUrl
+//                    connection artifactPomScmConnection
+//                    developerConnection artifactPomScmDeveloperConnection
+//                }
+//
+//                licenses {
+//                    license {
+//                        name artifactPomLicenseName
+//                        url artifactPomLicenseUrl
+//                        distribution artifactPomDistribution
+//                    }
+//                }
+//
+//                developers {
+//                    developer {
+//                        id artifactPomDeveloperId
+//                        name artifactPomDeveloperName
+//                        email artifactPomDeveloperEmail
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}

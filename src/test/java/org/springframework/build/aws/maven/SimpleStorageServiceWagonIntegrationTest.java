@@ -24,6 +24,7 @@ import org.apache.maven.wagon.TransferFailedException;
 import org.apache.maven.wagon.WagonException;
 import org.apache.maven.wagon.authentication.AuthenticationInfo;
 import org.apache.maven.wagon.repository.Repository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
@@ -64,6 +65,7 @@ public final class SimpleStorageServiceWagonIntegrationTest {
             new SimpleStorageServiceWagon(this.amazonS3, BUCKET_NAME, BASE_DIRECTORY);
 
 
+    @Ignore
     @Test
     public void regionConnections() throws WagonException {
         SimpleStorageServiceWagon remoteConnectingWagon = new SimpleStorageServiceWagon();

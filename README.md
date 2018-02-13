@@ -1,4 +1,12 @@
 # AWS Maven Wagon
+[![GitHub version](https://badge.fury.io/gh/platform-team%2Faws-maven.svg)](http://badge.fury.io/gh/platform-team%2Faws-maven)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+[![Dependency Status](https://www.versioneye.com/user/projects/5a830fc40fb24f26e080542f/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a830fc40fb24f26e080542f)
+[![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=6.0)](https://travis-ci.org/platform-team/aws-maven)
+[![Coverage Status](https://img.shields.io/coveralls/moleksyuk/psl-commons.svg)](https://coveralls.io/r/moleksyuk/psl-commons?branch=master)
+
+
 This project is a [Maven Wagon][wagon] for [Amazon S3][s3].  In order to to publish artifacts to an S3 bucket, the user (as identified by their access key) must be listed as an owner on the bucket.
 
 ## Usage
@@ -14,7 +22,7 @@ To publish Maven artifacts to S3 a build extension must be defined in a project'
       <extension>
         <groupId>com.github.platform-team</groupId>
         <artifactId>aws-maven</artifactId>
-        <version>5.1.0</version>
+        <version>6.0.0</version>
       </extension>
       ...
     </extensions>
@@ -172,3 +180,24 @@ aws s3api put-bucket-policy --bucket $BUCKET --policy "$POLICY"
 [s3]: http://aws.amazon.com/s3/
 [sys-prop]: http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/SystemPropertiesCredentialsProvider.html
 [wagon]: http://maven.apache.org/wagon/
+
+
+## Release Notes
+* `6.0`
+    - todo
+
+## License
+
+Copyright 2018-Present Platform Team.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
