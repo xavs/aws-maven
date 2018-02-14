@@ -17,10 +17,9 @@
 package org.springframework.build.aws.maven.matchers;
 
 import org.apache.maven.wagon.events.SessionEvent;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
+import org.mockito.ArgumentMatcher;
 
-final class SessionEventMatcher extends BaseMatcher<SessionEvent> {
+final class SessionEventMatcher implements ArgumentMatcher<SessionEvent> {
 
     private final SessionEvent sessionEvent;
 
@@ -31,7 +30,7 @@ final class SessionEventMatcher extends BaseMatcher<SessionEvent> {
     // CHECKSTYLE:OFF
 
     @Override
-    public boolean matches(Object obj) {
+    public boolean matches(SessionEvent obj) {
         if (this.sessionEvent == obj) {
             return true;
         }
@@ -41,7 +40,7 @@ final class SessionEventMatcher extends BaseMatcher<SessionEvent> {
         if (SessionEvent.class != obj.getClass()) {
             return false;
         }
-        SessionEvent other = (SessionEvent) obj;
+        SessionEvent other = obj;
         if (this.sessionEvent.getEventType() != other.getEventType()) {
             return false;
         }
@@ -63,10 +62,4 @@ final class SessionEventMatcher extends BaseMatcher<SessionEvent> {
     }
 
     // CHECKSTYLE:ON
-
-    @Override
-    public void describeTo(Description description) {
-        description.appendValue(this.sessionEvent);
-    }
-
 }
