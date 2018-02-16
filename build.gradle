@@ -80,8 +80,6 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.7'
     compile 'commons-io:commons-io:2.6'
 
-
-
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'ch.qos.logback:logback-classic:1.2.3'
 
@@ -89,7 +87,6 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'org.mockito:mockito-core:2.15.0'
     testCompile 'pl.pragmatists:JUnitParams:1.1.1'
-
 }
 
 jacocoTestReport {
@@ -123,52 +120,52 @@ artifacts {
     archives javadocJar
 }
 
-//signing {
-//    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
-//    sign configurations.archives
-//}
-//
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-//
-//            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-//                authentication(userName: sonatypeUsername, password: sonatypePassword)
-//            }
-//
-//            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
-//                authentication(userName: sonatypeUsername, password: sonatypePassword)
-//            }
-//
-//            pom.project {
-//                name projectName
-//                description projectDescription
-//                packaging 'jar'
-//                url projectUrl
-//
-//                scm {
-//                    url artifactPomScmUrl
-//                    connection artifactPomScmConnection
-//                    developerConnection artifactPomScmDeveloperConnection
-//                }
-//
-//                licenses {
-//                    license {
-//                        name artifactPomLicenseName
-//                        url artifactPomLicenseUrl
-//                        distribution artifactPomDistribution
-//                    }
-//                }
-//
-//                developers {
-//                    developer {
-//                        id artifactPomDeveloperId
-//                        name artifactPomDeveloperName
-//                        email artifactPomDeveloperEmail
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots/') {
+                authentication(userName: sonatypeUsername, password: sonatypePassword)
+            }
+
+            pom.project {
+                name projectName
+                description projectDescription
+                packaging 'jar'
+                url projectUrl
+
+                scm {
+                    url artifactPomScmUrl
+                    connection artifactPomScmConnection
+                    developerConnection artifactPomScmDeveloperConnection
+                }
+
+                licenses {
+                    license {
+                        name artifactPomLicenseName
+                        url artifactPomLicenseUrl
+                        distribution artifactPomDistribution
+                    }
+                }
+
+                developers {
+                    developer {
+                        id artifactPomDeveloperId
+                        name artifactPomDeveloperName
+                        email artifactPomDeveloperEmail
+                    }
+                }
+            }
+        }
+    }
+}
