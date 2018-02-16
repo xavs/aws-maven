@@ -16,8 +16,11 @@
 
 package com.github.platform.team.plugin.util;
 
+import com.amazonaws.ClientConfiguration;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
+import org.apache.maven.wagon.proxy.ProxyInfo;
+import org.apache.maven.wagon.proxy.ProxyInfoProvider;
 import org.apache.maven.wagon.repository.Repository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -87,7 +90,16 @@ public class S3UtilsTest {
     }
 
     @Test
-    public void getClientConfiguration() {
+    @Parameters(method = "proxyProviders")
+    public void getClientConfigurationIfProxyInfoProviderIsNull(ProxyInfoProvider provider, String expectedHost, int expectedPort) {
+        // GIVEN
+
+        // WHEN
+        ClientConfiguration actual = S3Utils.getClientConfiguration(provider);
+
+        // THEN
+        assertThat(actual.getProxyHost(), equalTo(expectedHost));
+        assertThat(actual.getProxyPort(), equalTo(expectedPort));
     }
 
     public Object[][] buckets() {
@@ -106,6 +118,19 @@ public class S3UtilsTest {
                 {new Repository("id", "s3://bucket/folder"), "folder/"},
                 {new Repository("id", "s3://bucket/folder/subfolder"), "folder/subfolder/"},
                 {new Repository("id", "s3://bucket/folder/subfolder/"), "folder/subfolder/"},
+        };
+    }
+
+    public Object[][] proxyProviders() {
+        return new Object[][]{
+                {null, null, -1},
+                {(ProxyInfoProvider) protocol -> null, null, -1},
+                {(ProxyInfoProvider) protocol -> {
+                    ProxyInfo proxyInfo = new ProxyInfo();
+                    proxyInfo.setHost("host");
+                    proxyInfo.setPort(8888);
+                    return proxyInfo;
+                }, "host", 8888},
         };
     }
 }
