@@ -3,14 +3,22 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 [![Dependency Status](https://www.versioneye.com/user/projects/5a8347ab0fb24f3c15236778/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a8347b00fb24f3c25ac91f8?child=summary)
-[![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=v6.0)](https://travis-ci.org/platform-team/aws-maven)
-[![Coverage Status](https://coveralls.io/repos/github/platform-team/aws-maven/badge.svg?branch=v6.0)](https://coveralls.io/github/platform-team/aws-maven?branch=v6.0)
+[![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=master)](https://travis-ci.org/platform-team/aws-maven)
+[![Coverage Status](https://coveralls.io/repos/github/platform-team/aws-maven/badge.svg?branch=master)](https://coveralls.io/github/platform-team/aws-maven?branch=master)
 
 
-This project is a [Maven Wagon][wagon] for [Amazon S3][s3].  In order to to publish artifacts to an S3 bucket, the user (as identified by their access key) must be listed as an owner on the bucket.
+## Description
+This project is a fork of a [Maven Wagon](https://github.com/spring-projects/aws-maven) for [Amazon S3](http://aws.amazon.com/s3/).  In order to to publish artifacts to an S3 bucket, the user (as identified by their access key) must be listed as an owner on the bucket.
+
+
+## Why this fork?
+- original repo not maintained for a long time but we updated fork to the latest libs.
+- we fixed some of issues that blocks others and us.
+- no support from maintainers of original repo. 
+
 
 ## Usage
-To publish Maven artifacts to S3 a build extension must be defined in a project's `pom.xml`.  The latest version of the wagon can be found on the [`aws-maven`][aws-maven] page in Maven Central.
+To publish Maven artifacts to S3 a build extension must be defined in a project's `pom.xml`.  The latest version of the wagon can be found on the [`aws-maven`](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.platform-team%22%20AND%20a%3A%22aws-maven%22) page in Maven Central.
 
 ```xml
 <project>
@@ -76,14 +84,15 @@ Finally the `~/.m2/settings.xml` must be updated to include access and secret ke
 </settings>
 ```
 
-Alternatively, the access and secret keys for the account can be provided using
+Alternatively, the access and secret keys for the account can be provided using (applied in order below)
 
-* `AWS_ACCESS_KEY_ID` (or `AWS_ACCESS_KEY`) and `AWS_SECRET_KEY` (or `AWS_SECRET_ACCESS_KEY`) [environment variables][env-var]
-* `aws.accessKeyId` and `aws.secretKey` [system properties][sys-prop]
-* The Amazon EC2 [Instance Metadata Service][instance-metadata]
+* `aws.accessKeyId` and `aws.secretKey` [system properties](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/SystemPropertiesCredentialsProvider.html)
+* `AWS_ACCESS_KEY_ID` (or `AWS_ACCESS_KEY`) and `AWS_SECRET_KEY` (or `AWS_SECRET_ACCESS_KEY`) [environment variables](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/EnvironmentVariableCredentialsProvider.html)
+* `aws_access_key_id` and `aws_secret_access_key` of [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
+* The Amazon EC2 [Instance Metadata Service](https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/EC2ContainerCredentialsProviderWrapper.html)
 
 ## Making Artifacts Public
-This wagon doesn't set an explict ACL for each artfact that is uploaded.  Instead you should create an AWS Bucket Policy to set permissions on objects.  A bucket policy can be set in the [AWS Console][console] and can be generated using the [AWS Policy Generator][policy-generator].
+This wagon doesn't set an explict ACL for each artifact that is uploaded. Instead you should create an AWS Bucket Policy to set permissions on objects. A bucket policy can be set in the [AWS Console](https://console.aws.amazon.com/s3) and can be generated using the [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html).
 
 In order to make the contents of a bucket public you need to add statements with the following details to your policy:
 
@@ -128,7 +137,7 @@ If your policy is setup properly it should look something like:
 }
 ```
 
-If you prefer to use the [command line][cli], you can use the following script to make the contents of a bucket public:
+If you prefer to use the [command line](http://aws.amazon.com/documentation/cli/), you can use the following script to make the contents of a bucket public:
 
 ```bash
 BUCKET=<BUCKET>
@@ -171,20 +180,10 @@ EOF
 aws s3api put-bucket-policy --bucket $BUCKET --policy "$POLICY"
 ```
 
-[aws-maven]: http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.springframework.build%22%20AND%20a%3A%22aws-maven%22
-[cli]: http://aws.amazon.com/documentation/cli/
-[console]: https://console.aws.amazon.com/s3
-[env-var]: http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/EnvironmentVariableCredentialsProvider.html
-[instance-metadata]: http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/InstanceProfileCredentialsProvider.html
-[policy-generator]: http://awspolicygen.s3.amazonaws.com/policygen.html
-[s3]: http://aws.amazon.com/s3/
-[sys-prop]: http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/SystemPropertiesCredentialsProvider.html
-[wagon]: http://maven.apache.org/wagon/
-
-
 ## Release Notes
-* `6.0`
-    - todo
+* `6.0.0`
+    - Updated to the latest libs.
+    - Changed order of aws credential resolution strategy.
 
 ## License
 
