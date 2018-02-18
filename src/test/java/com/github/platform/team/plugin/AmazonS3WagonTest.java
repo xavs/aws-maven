@@ -79,6 +79,7 @@ public class AmazonS3WagonTest {
     private final AmazonS3Wagon wagon =
             new AmazonS3Wagon(this.amazonS3, BUCKET_NAME, BASE_DIRECTORY);
 
+    // Run only locally against own aws keys
     @Ignore
     @Test
     public void regionConnections() throws WagonException {
