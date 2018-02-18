@@ -34,7 +34,7 @@ import com.github.platform.team.plugin.data.TransferProgress;
 import com.github.platform.team.plugin.data.transfer.TransferProgressFileInputStream;
 import com.github.platform.team.plugin.data.transfer.TransferProgressFileOutputStream;
 import com.github.platform.team.plugin.maven.AbstractWagon;
-import com.github.platform.team.plugin.util.IoUtils;
+import com.github.platform.team.plugin.util.IOUtils;
 import com.github.platform.team.plugin.util.S3Utils;
 import org.apache.maven.wagon.ResourceDoesNotExistException;
 import org.apache.maven.wagon.TransferFailedException;
@@ -241,7 +241,7 @@ public final class AmazonS3Wagon extends AbstractWagon {
             in = s3Object.getObjectContent();
             out = new TransferProgressFileOutputStream(destination, transferProgress);
 
-            IoUtils.copy(in, out);
+            IOUtils.copy(in, out);
         } catch (AmazonServiceException e) {
             throw new ResourceDoesNotExistException(String.format("'%s' does not exist", resourceName), e);
         } catch (FileNotFoundException e) {
@@ -249,7 +249,7 @@ public final class AmazonS3Wagon extends AbstractWagon {
         } catch (IOException e) {
             throw new TransferFailedException(String.format("Cannot read from '%s' and write to '%s'", resourceName, destination), e);
         } finally {
-            IoUtils.closeQuietly(in, out);
+            IOUtils.closeQuietly(in, out);
         }
     }
 
@@ -274,7 +274,7 @@ public final class AmazonS3Wagon extends AbstractWagon {
         } catch (FileNotFoundException e) {
             throw new ResourceDoesNotExistException(String.format("Cannot read file from '%s'", source), e);
         } finally {
-            IoUtils.closeQuietly(in);
+            IOUtils.closeQuietly(in);
         }
     }
 }

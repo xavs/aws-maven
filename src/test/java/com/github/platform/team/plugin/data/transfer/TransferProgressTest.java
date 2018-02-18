@@ -24,25 +24,23 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public final class TransferProgressTest {
+public class TransferProgressTest {
 
     private static final int REQUEST_TYPE = TransferEvent.REQUEST_GET;
-
     private final Resource resource = mock(Resource.class);
-
     private final TransferListenerSupport transferListenerSupport = mock(TransferListenerSupport.class);
-
-    private final StandardTransferProgress transferProgress = new StandardTransferProgress(this.resource, REQUEST_TYPE,
-            this.transferListenerSupport);
+    private final StandardTransferProgress transferProgress = new StandardTransferProgress(this.resource, REQUEST_TYPE, this.transferListenerSupport);
 
     @Test
     public void notifyProgress() {
+        // GIVEN
         byte[] buffer = new byte[0];
         int length = 0;
 
+        // WHEN
         this.transferProgress.notify(buffer, length);
 
+        // THEN
         verify(this.transferListenerSupport).fireTransferProgress(this.resource, REQUEST_TYPE, buffer, length);
     }
-
 }

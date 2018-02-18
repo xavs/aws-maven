@@ -19,15 +19,13 @@ package com.github.platform.team.plugin.maven.matchers;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import org.mockito.ArgumentMatcher;
 
-final class ListObjectsRequestMatcher implements ArgumentMatcher<ListObjectsRequest> {
+public class ListObjectsRequestMatcher implements ArgumentMatcher<ListObjectsRequest> {
 
     private final ListObjectsRequest listObjectsRequest;
 
     ListObjectsRequestMatcher(ListObjectsRequest listObjectsRequest) {
         this.listObjectsRequest = listObjectsRequest;
     }
-
-    // CHECKSTYLE:OFF
 
     @Override
     public boolean matches(ListObjectsRequest obj) {
@@ -78,6 +76,4 @@ final class ListObjectsRequestMatcher implements ArgumentMatcher<ListObjectsRequ
         }
         return true;
     }
-
-    // CHECKSTYLE:ON
 }

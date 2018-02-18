@@ -19,22 +19,19 @@ package com.github.platform.team.plugin.maven.matchers;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 import org.apache.maven.wagon.events.SessionEvent;
 import org.apache.maven.wagon.events.TransferEvent;
+import org.mockito.ArgumentMatchers;
 
-public final class Matchers {
-
-    private Matchers() {
-    }
+public abstract class Matchers {
 
     public static ListObjectsRequest eq(ListObjectsRequest listObjectsRequest) {
-        return org.mockito.ArgumentMatchers.argThat(new ListObjectsRequestMatcher(listObjectsRequest));
+        return ArgumentMatchers.argThat(new ListObjectsRequestMatcher(listObjectsRequest));
     }
 
     public static SessionEvent eq(SessionEvent sessionEvent) {
-        return org.mockito.ArgumentMatchers.argThat(new SessionEventMatcher(sessionEvent));
+        return ArgumentMatchers.argThat(new SessionEventMatcher(sessionEvent));
     }
 
     public static TransferEvent eq(TransferEvent transferEvent) {
-        return org.mockito.ArgumentMatchers.argThat(new TransferEventMatcher(transferEvent));
+        return ArgumentMatchers.argThat(new TransferEventMatcher(transferEvent));
     }
-
 }

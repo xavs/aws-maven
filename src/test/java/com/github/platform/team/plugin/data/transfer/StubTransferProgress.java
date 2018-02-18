@@ -23,7 +23,6 @@ import java.util.Arrays;
 final class StubTransferProgress implements TransferProgress {
 
     private volatile byte[] buffer;
-
     private volatile int length;
 
     @Override

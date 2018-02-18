@@ -53,24 +53,16 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public final class AbstractWagonTest {
+public class AbstractWagonTest {
 
     private final SessionListenerSupport sessionListenerSupport = mock(SessionListenerSupport.class);
-
     private final SessionListener sessionListener = mock(SessionListener.class);
-
     private final TransferListenerSupport transferListenerSupport = mock(TransferListenerSupport.class);
-
     private final TransferListener transferListener = mock(TransferListener.class);
-
     private final Repository repository = mock(Repository.class);
-
     private final AuthenticationInfo authenticationInfo = mock(AuthenticationInfo.class);
-
     private final ProxyInfoProvider proxyInfoProvider = mock(ProxyInfoProvider.class);
-
     private final ProxyInfo proxyInfo = mock(ProxyInfo.class);
-
     private final StubWagon wagon = spy(new StubWagon(true, this.sessionListenerSupport, this.transferListenerSupport));
 
     @Test

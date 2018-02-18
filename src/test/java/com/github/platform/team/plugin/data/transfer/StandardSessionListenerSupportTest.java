@@ -30,14 +30,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public final class StandardSessionListenerSupportTest {
+public class StandardSessionListenerSupportTest {
 
     private final Wagon wagon = mock(Wagon.class);
-
     private final SessionListener sessionListener = mock(SessionListener.class);
-
-    private final StandardSessionListenerSupport sessionListenerSupport =
-            new StandardSessionListenerSupport(this.wagon);
+    private final StandardSessionListenerSupport sessionListenerSupport = new StandardSessionListenerSupport(this.wagon);
 
     @Before
     public void addSessionListener() {
@@ -103,5 +100,4 @@ public final class StandardSessionListenerSupportTest {
         this.sessionListenerSupport.fireSessionError(exception);
         verify(this.sessionListener).sessionError(eq(new SessionEvent(this.wagon, exception)));
     }
-
 }

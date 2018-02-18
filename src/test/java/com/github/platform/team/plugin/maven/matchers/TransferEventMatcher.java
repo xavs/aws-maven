@@ -19,15 +19,13 @@ package com.github.platform.team.plugin.maven.matchers;
 import org.apache.maven.wagon.events.TransferEvent;
 import org.mockito.ArgumentMatcher;
 
-final class TransferEventMatcher implements ArgumentMatcher<TransferEvent> {
+public class TransferEventMatcher implements ArgumentMatcher<TransferEvent> {
 
     private final TransferEvent transferEvent;
 
     TransferEventMatcher(TransferEvent transferEvent) {
         this.transferEvent = transferEvent;
     }
-
-    // CHECKSTYLE:OFF
 
     @Override
     public boolean matches(TransferEvent obj) {
@@ -70,6 +68,4 @@ final class TransferEventMatcher implements ArgumentMatcher<TransferEvent> {
         }
         return true;
     }
-
-    // CHECKSTYLE:ON
 }

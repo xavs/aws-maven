@@ -21,12 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public final class IoUtils {
+public abstract class IOUtils {
 
     private static final int BUFFER_SIZE = 8192;
-
-    private IoUtils() {
-    }
 
     public static void copy(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[BUFFER_SIZE];

@@ -16,78 +16,92 @@
 
 package com.github.platform.team.plugin.data.transfer;
 
-import com.github.platform.team.plugin.util.IoUtils;
+import com.github.platform.team.plugin.util.IOUtils;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
-public final class TransferProgressFileOutputStreamTest {
-
-    private static final int END_POSITION = 30;
+public class TransferProgressFileOutputStreamTest {
 
     private static final int START_POSITION = 10;
-
+    private static final int END_POSITION = 30;
+    private static final int SIZE = 20;
     private static final int BIG_SIZE = 1024;
 
-    private static final int SIZE = 20;
-
     private final StubTransferProgress transferProgress = new StubTransferProgress();
+    private TransferProgressFileOutputStream outputStream;
 
-    private final TransferProgressFileOutputStream outputStream;
-
-    public TransferProgressFileOutputStreamTest() throws FileNotFoundException {
+    @Before
+    public void before() throws Exception {
         this.outputStream = new TransferProgressFileOutputStream(new File("target/test.txt"), this.transferProgress);
     }
 
     @After
-    public void closeStream() {
-        IoUtils.closeQuietly(this.outputStream);
+    public void after() {
+        IOUtils.closeQuietly(this.outputStream);
     }
 
     @Test
-    public void write() throws IOException {
+    public void write() throws Exception {
+        // GIVEN
+        byte[] expected = {(byte) 1};
+
+        // WHEN
         this.outputStream.write(1);
-        assertArrayEquals(new byte[]{(byte) 1}, this.transferProgress.getBuffer());
-        assertEquals(1, this.transferProgress.getLength());
+
+        // THEN
+        assertThat(this.transferProgress.getLength(), equalTo(1));
+        assertThat(this.transferProgress.getBuffer(), equalTo(expected));
     }
 
     @Test
-    public void readByteArray() throws IOException {
-        byte[] buffer = new byte[SIZE];
-        Arrays.fill(buffer, (byte) 1);
-        this.outputStream.write(buffer);
+    public void readByteArray() throws Exception {
+        // GIVEN
+        byte[] expected = new byte[SIZE];
+        Arrays.fill(expected, (byte) 1);
 
-        assertArrayEquals(buffer, this.transferProgress.getBuffer());
-        assertEquals(SIZE, this.transferProgress.getLength());
+        // WHEN
+        this.outputStream.write(expected);
+
+        // THEN
+        assertThat(this.transferProgress.getLength(), equalTo(SIZE));
+        assertThat(this.transferProgress.getBuffer(), equalTo(expected));
     }
 
     @Test
-    public void readyByteArrayLength() throws IOException {
-        byte[] buffer = new byte[SIZE];
-        Arrays.fill(buffer, (byte) 1);
-        this.outputStream.write(buffer, 0, SIZE);
+    public void readyByteArrayLength() throws Exception {
+        // GIVEN
+        byte[] expected = new byte[SIZE];
+        Arrays.fill(expected, (byte) 1);
 
-        assertArrayEquals(buffer, this.transferProgress.getBuffer());
-        assertEquals(SIZE, this.transferProgress.getLength());
+        // WHEN
+        this.outputStream.write(expected, 0, SIZE);
+
+        // THEN
+        assertThat(this.transferProgress.getLength(), equalTo(SIZE));
+        assertThat(this.transferProgress.getBuffer(), equalTo(expected));
     }
 
     @Test
-    public void readyByteArrayOffsetLength() throws IOException {
+    public void readyByteArrayOffsetLength() throws Exception {
+        // GIVEN
         byte[] buffer = new byte[BIG_SIZE];
         Arrays.fill(buffer, START_POSITION, END_POSITION, (byte) 1);
+
+        // WHEN
         this.outputStream.write(buffer, START_POSITION, SIZE);
 
+        // THEN
         byte[] expected = new byte[SIZE];
         System.arraycopy(buffer, START_POSITION, expected, 0, SIZE);
 
-        assertArrayEquals(expected, this.transferProgress.getBuffer());
-        assertEquals(SIZE, this.transferProgress.getLength());
+        assertThat(this.transferProgress.getLength(), equalTo(SIZE));
+        assertThat(this.transferProgress.getBuffer(), equalTo(expected));
     }
 }

@@ -19,15 +19,13 @@ package com.github.platform.team.plugin.maven.matchers;
 import org.apache.maven.wagon.events.SessionEvent;
 import org.mockito.ArgumentMatcher;
 
-final class SessionEventMatcher implements ArgumentMatcher<SessionEvent> {
+public class SessionEventMatcher implements ArgumentMatcher<SessionEvent> {
 
     private final SessionEvent sessionEvent;
 
     SessionEventMatcher(SessionEvent sessionEvent) {
         this.sessionEvent = sessionEvent;
     }
-
-    // CHECKSTYLE:OFF
 
     @Override
     public boolean matches(SessionEvent obj) {
@@ -60,6 +58,4 @@ final class SessionEventMatcher implements ArgumentMatcher<SessionEvent> {
         }
         return true;
     }
-
-    // CHECKSTYLE:ON
 }
