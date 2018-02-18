@@ -56,7 +56,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public final class AmazonS3WagonTest {
+public class AmazonS3WagonTest {
 
     private static final String FILE_NAME = "robots.txt";
 

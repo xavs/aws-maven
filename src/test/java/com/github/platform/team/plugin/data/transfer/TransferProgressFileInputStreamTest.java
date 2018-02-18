@@ -26,7 +26,7 @@ import java.io.File;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public final class TransferProgressFileInputStreamTest {
+public class TransferProgressFileInputStreamTest {
 
     private static final int START_POSITION = 10;
     private static final int BIG_SIZE = 1024;

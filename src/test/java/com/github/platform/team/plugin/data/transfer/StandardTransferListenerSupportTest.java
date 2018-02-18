@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public final class StandardTransferListenerSupportTest {
+public class StandardTransferListenerSupportTest {
 
     private static final int REQUEST_TYPE = TransferEvent.REQUEST_GET;
 

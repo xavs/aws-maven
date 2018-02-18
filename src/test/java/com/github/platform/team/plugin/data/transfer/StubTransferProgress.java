@@ -20,7 +20,7 @@ import com.github.platform.team.plugin.data.TransferProgress;
 
 import java.util.Arrays;
 
-final class StubTransferProgress implements TransferProgress {
+public class StubTransferProgress implements TransferProgress {
 
     private volatile byte[] buffer;
     private volatile int length;
