@@ -24,11 +24,11 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static com.github.platform.team.plugin.maven.matchers.Matchers.eq;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static com.github.platform.team.plugin.maven.matchers.Matchers.eq;
 
 public final class StandardSessionListenerSupportTest {
 

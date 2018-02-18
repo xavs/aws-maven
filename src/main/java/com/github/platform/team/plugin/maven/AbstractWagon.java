@@ -42,19 +42,13 @@ import java.util.List;
 
 public abstract class AbstractWagon implements Wagon {
 
-    private int connectionTimeout = DEFAULT_CONNECTION_TIMEOUT;
-
-    private boolean interactive = false;
-
-    private int readTimeout = DEFAULT_READ_TIMEOUT;
-
-    private Repository repository = null;
-
     private final boolean supportsDirectoryCopy;
-
     private final SessionListenerSupport sessionListenerSupport;
-
     private final TransferListenerSupport transferListenerSupport;
+    private int connectionTimeout = DEFAULT_CONNECTION_TIMEOUT;
+    private boolean interactive = false;
+    private int readTimeout = DEFAULT_READ_TIMEOUT;
+    private Repository repository = null;
 
     protected AbstractWagon(boolean supportsDirectoryCopy) {
         this.supportsDirectoryCopy = supportsDirectoryCopy;

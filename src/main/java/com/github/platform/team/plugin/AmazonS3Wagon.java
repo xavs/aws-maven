@@ -60,7 +60,7 @@ import java.util.regex.Pattern;
  * the S3 service should be in the form of <code>s3://bucket.name</code>. As an example
  * <code>s3://static.springframework.org</code> would put files into the <code>static.springframework.org</code> bucket
  * on the S3 service.
- *
+ * <p>
  * This implementation uses the <code>username</code> and <code>passphrase</code> portions of the server authentication
  * metadata for credentials.
  */
@@ -88,6 +88,71 @@ public final class AmazonS3Wagon extends AbstractWagon {
         this.amazonS3 = amazonS3;
         this.bucketName = bucketName;
         this.baseDirectory = baseDirectory;
+    }
+
+    private static ObjectMetadata getObjectMetadata(AmazonS3 amazonS3, String bucketName, String baseDirectory, String resourceName) {
+        return amazonS3.getObjectMetadata(bucketName, getKey(baseDirectory, resourceName));
+    }
+
+    private static String getKey(String baseDirectory, String resourceName) {
+        return String.format(KEY_FORMAT, baseDirectory, resourceName);
+    }
+
+    private static List<String> getResourceNames(ObjectListing objectListing, Pattern pattern) {
+        List<String> resourceNames = new ArrayList<>();
+
+        for (String commonPrefix : objectListing.getCommonPrefixes()) {
+            resourceNames.add(getResourceName(commonPrefix, pattern));
+        }
+
+        for (S3ObjectSummary s3ObjectSummary : objectListing.getObjectSummaries()) {
+            resourceNames.add(getResourceName(s3ObjectSummary.getKey(), pattern));
+        }
+
+        return resourceNames;
+    }
+
+    private static String getResourceName(String key, Pattern pattern) {
+        Matcher matcher = pattern.matcher(key);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return key;
+    }
+
+    private static void mkdirs(AmazonS3 amazonS3, String bucketName, String path, int index) throws TransferFailedException {
+        int directoryIndex = path.indexOf('/', index) + 1;
+
+        if (directoryIndex != 0) {
+            String directory = path.substring(0, directoryIndex);
+            PutObjectRequest putObjectRequest = createDirectoryPutObjectRequest(bucketName, directory);
+
+            try {
+                amazonS3.putObject(putObjectRequest);
+            } catch (AmazonServiceException e) {
+                throw new TransferFailedException(String.format("Cannot write directory '%s'", directory), e);
+            }
+
+            mkdirs(amazonS3, bucketName, path, directoryIndex);
+        }
+    }
+
+    private static PutObjectRequest createDirectoryPutObjectRequest(String bucketName, String key) {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(new byte[0]);
+
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(0);
+
+        return new PutObjectRequest(bucketName, key, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
+    }
+
+    private static String getBucketRegion(AWSCredentialsProvider credentialsProvider, ClientConfiguration clientConfiguration, String bucketName) {
+        return AmazonS3Client.builder()
+                .withCredentials(credentialsProvider)
+                .withClientConfiguration(clientConfiguration)
+                .enableForceGlobalBucketAccess()
+                .build()
+                .getBucketLocation(bucketName);
     }
 
     @Override
@@ -211,70 +276,5 @@ public final class AmazonS3Wagon extends AbstractWagon {
         } finally {
             IoUtils.closeQuietly(in);
         }
-    }
-
-    private static ObjectMetadata getObjectMetadata(AmazonS3 amazonS3, String bucketName, String baseDirectory, String resourceName) {
-        return amazonS3.getObjectMetadata(bucketName, getKey(baseDirectory, resourceName));
-    }
-
-    private static String getKey(String baseDirectory, String resourceName) {
-        return String.format(KEY_FORMAT, baseDirectory, resourceName);
-    }
-
-    private static List<String> getResourceNames(ObjectListing objectListing, Pattern pattern) {
-        List<String> resourceNames = new ArrayList<>();
-
-        for (String commonPrefix : objectListing.getCommonPrefixes()) {
-            resourceNames.add(getResourceName(commonPrefix, pattern));
-        }
-
-        for (S3ObjectSummary s3ObjectSummary : objectListing.getObjectSummaries()) {
-            resourceNames.add(getResourceName(s3ObjectSummary.getKey(), pattern));
-        }
-
-        return resourceNames;
-    }
-
-    private static String getResourceName(String key, Pattern pattern) {
-        Matcher matcher = pattern.matcher(key);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return key;
-    }
-
-    private static void mkdirs(AmazonS3 amazonS3, String bucketName, String path, int index) throws TransferFailedException {
-        int directoryIndex = path.indexOf('/', index) + 1;
-
-        if (directoryIndex != 0) {
-            String directory = path.substring(0, directoryIndex);
-            PutObjectRequest putObjectRequest = createDirectoryPutObjectRequest(bucketName, directory);
-
-            try {
-                amazonS3.putObject(putObjectRequest);
-            } catch (AmazonServiceException e) {
-                throw new TransferFailedException(String.format("Cannot write directory '%s'", directory), e);
-            }
-
-            mkdirs(amazonS3, bucketName, path, directoryIndex);
-        }
-    }
-
-    private static PutObjectRequest createDirectoryPutObjectRequest(String bucketName, String key) {
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(new byte[0]);
-
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(0);
-
-        return new PutObjectRequest(bucketName, key, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
-    }
-
-    private static String getBucketRegion(AWSCredentialsProvider credentialsProvider, ClientConfiguration clientConfiguration, String bucketName) {
-        return AmazonS3Client.builder()
-                .withCredentials(credentialsProvider)
-                .withClientConfiguration(clientConfiguration)
-                .enableForceGlobalBucketAccess()
-                .build()
-                .getBucketLocation(bucketName);
     }
 }

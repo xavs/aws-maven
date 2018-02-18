@@ -16,7 +16,6 @@
 
 package com.github.platform.team.plugin.data.transfer;
 
-import com.github.platform.team.plugin.data.transfer.TransferProgressFileOutputStream;
 import com.github.platform.team.plugin.util.IoUtils;
 import org.junit.After;
 import org.junit.Test;

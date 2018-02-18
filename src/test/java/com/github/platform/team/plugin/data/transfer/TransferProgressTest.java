@@ -17,7 +17,6 @@
 package com.github.platform.team.plugin.data.transfer;
 
 import com.github.platform.team.plugin.data.TransferListenerSupport;
-import com.github.platform.team.plugin.data.transfer.StandardTransferProgress;
 import org.apache.maven.wagon.events.TransferEvent;
 import org.apache.maven.wagon.resource.Resource;
 import org.junit.Test;
