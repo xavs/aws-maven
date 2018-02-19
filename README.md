@@ -2,7 +2,7 @@
 [![GitHub version](https://badge.fury.io/gh/platform-team%2Faws-maven.svg)](http://badge.fury.io/gh/platform-team%2Faws-maven)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-[![Dependency Status](https://www.versioneye.com/user/projects/5a8347ab0fb24f3c15236778/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a8347b00fb24f3c25ac91f8?child=summary)
+[![Dependency Status](https://www.versioneye.com/user/projects/5a8347b00fb24f3c25ac91f8/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a8347b00fb24f3c25ac91f8)
 [![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=master)](https://travis-ci.org/platform-team/aws-maven)
 [![Coverage Status](https://coveralls.io/repos/github/platform-team/aws-maven/badge.svg?branch=master)](https://coveralls.io/github/platform-team/aws-maven?branch=master)
 
