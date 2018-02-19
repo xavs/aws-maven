@@ -90,6 +90,29 @@ Finally the `~/.m2/settings.xml` must be updated to include access and secret ke
 </settings>
 ```
 
+### Connecting through a Proxy
+For being able to connect behind an HTTP proxy you need to add the following configuration to `~/.m2/settings.xml`:
+
+```xml
+<settings>
+  ...
+  <proxies>
+     ...
+     <proxy>
+         <active>true</active>
+         <protocol>s3</protocol>
+         <host>myproxy.host.com</host>
+         <port>8080</port>
+         <username>proxyuser</username>
+         <password>somepassword</password>
+         <nonProxyHosts>www.google.com|*.somewhere.com</nonProxyHosts>
+     </proxy>
+     ...
+    </proxies>
+  ...
+</settings>
+```
+
 Alternatively, the access and secret keys for the account can be provided using (applied in order below)
 
 * `aws.accessKeyId` and `aws.secretKey` [system properties](http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/SystemPropertiesCredentialsProvider.html)
