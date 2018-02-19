@@ -72,11 +72,17 @@ Finally the `~/.m2/settings.xml` must be updated to include access and secret ke
       <id>aws-release</id>
       <username>0123456789ABCDEFGHIJ</username>
       <password>0123456789abcdefghijklmnopqrstuvwxyzABCD</password>
+      <configuration>
+        <wagonProvider>s3</wagonProvider>
+      </configuration>
     </server>
     <server>
       <id>aws-snapshot</id>
       <username>0123456789ABCDEFGHIJ</username>
       <password>0123456789abcdefghijklmnopqrstuvwxyzABCD</password>
+      <configuration>
+        <wagonProvider>s3</wagonProvider>
+      </configuration>
     </server>
     ...
   </servers>
