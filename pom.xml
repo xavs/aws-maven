@@ -145,6 +145,7 @@
             </plugin>
 
             <!-- Publish to Maven Central -->
+            <!--
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -196,6 +197,7 @@
                     </execution>
                 </executions>
             </plugin>
+            -->
         </plugins>
 
     </build>
@@ -241,6 +243,7 @@
     </developers>
 
     <!-- Publish to Maven Central -->
+    <!--
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -264,4 +267,5 @@
             </properties>
         </profile>
     </profiles>
+    -->
 </project>
