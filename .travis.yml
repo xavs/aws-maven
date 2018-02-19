@@ -5,4 +5,4 @@ language: java
 #    - master
 
 after_success:
-- gradle jacocoTestReport coveralls
+- mvn clean test jacoco:report coveralls:report
